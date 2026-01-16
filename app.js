@@ -5,14 +5,7 @@ function injectNav() {
   const nav = document.getElementById("nav");
   if (!nav) return;
 
-  nav.innerHTML = `
-    <div class="nav-inner">
-      <div class="brand">
-        <span class="dot"></span>
-        <b>Explore Kendari</b>
-      </div>
-    </div>
-  `;
+  nav.innerHTML = ``;
 }
 
 // ========== UTIL ==========
@@ -124,4 +117,3 @@ document.addEventListener("DOMContentLoaded", () => {
   setupStepper();
   setYear();
 });
-
