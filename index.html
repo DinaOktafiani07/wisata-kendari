@@ -1,0 +1,858 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wisata Kota Kendari | Explore Kendari</title>
+  <meta name="description" content="Platform singkat wisata, hotel, kuliner, dan budaya di Kota Kendari." />
+
+  <style>
+    :root{
+      --bg0:#020b1c;
+      --bg1:#061a3b;
+      --bg2:#0b2e6a;
+      --card: rgba(255,255,255,.08);
+      --card2: rgba(255,255,255,.06);
+      --stroke: rgba(255,255,255,.14);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.70);
+      --muted2: rgba(255,255,255,.55);
+      --accent: #5bbcff;
+      --accent2:#7c5cff;
+      --shadow: 0 22px 60px rgba(0,0,0,.45);
+      --radius: 20px;
+      --radius2: 28px;
+      --max: 1150px;
+    }
+
+    *{ box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(1200px 700px at 15% 10%, rgba(91,188,255,.18), transparent 55%),
+        radial-gradient(900px 700px at 85% 25%, rgba(124,92,255,.14), transparent 60%),
+        radial-gradient(900px 600px at 35% 85%, rgba(91,188,255,.12), transparent 60%),
+        linear-gradient(180deg, var(--bg0), var(--bg1) 40%, var(--bg2) 100%);
+      overflow-x:hidden;
+    }
+
+    /* subtle moving glow */
+    .glow{
+      position:fixed;
+      inset:-200px;
+      background:
+        radial-gradient(600px 400px at 20% 20%, rgba(91,188,255,.10), transparent 60%),
+        radial-gradient(700px 500px at 80% 35%, rgba(124,92,255,.10), transparent 65%);
+      filter: blur(10px);
+      animation: drift 10s ease-in-out infinite alternate;
+      pointer-events:none;
+      z-index:-1;
+    }
+    @keyframes drift{
+      from{ transform: translate3d(-10px,-10px,0) scale(1); }
+      to{ transform: translate3d(14px,10px,0) scale(1.02); }
+    }
+
+    /* top progress */
+    .progress{
+      position:fixed; top:0; left:0; height:3px; width:0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      z-index:9999;
+    }
+
+    /* navbar (appears after scroll) */
+    .nav{
+      position:fixed;
+      top:14px; left:0; right:0;
+      display:flex;
+      justify-content:center;
+      z-index:1000;
+      pointer-events:none;
+      opacity:0;
+      transform: translateY(-10px);
+      transition: .35s ease;
+    }
+    .nav.show{
+      opacity:1;
+      transform: translateY(0);
+      pointer-events:auto;
+    }
+    .nav-inner{
+      width:min(var(--max), calc(100% - 24px));
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:10px 12px;
+      border-radius: 999px;
+      background: rgba(10,25,55,.55);
+      border: 1px solid rgba(255,255,255,.14);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      padding:8px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.05);
+    }
+    .dot{
+      width:12px; height:12px; border-radius:99px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 0 0 4px rgba(91,188,255,.12);
+    }
+    .brand b{ font-size:14px; letter-spacing:.2px; }
+    .nav a{
+      color: var(--text);
+      text-decoration:none;
+      font-size:13px;
+      padding:10px 12px;
+      border-radius: 999px;
+      transition: .2s ease;
+      opacity:.92;
+    }
+    .nav a:hover{
+      background: rgba(255,255,255,.08);
+      opacity:1;
+      transform: translateY(-1px);
+    }
+    .spacer{ flex:1; }
+    .pill{
+      display:flex; gap:8px; align-items:center;
+      font-size:12px;
+      color: var(--muted);
+      padding:8px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.10);
+    }
+
+    /* layout */
+    .wrap{ width:min(var(--max), calc(100% - 24px)); margin:0 auto; }
+
+    /* hero */
+    .hero{
+      position:relative;
+      min-height: 88vh;
+      display:grid;
+      align-items:end;
+      padding: 28px 0 44px;
+    }
+    .hero-bg{
+      position:absolute; inset:0;
+      background:
+        linear-gradient(180deg, rgba(2,11,28,.25), rgba(2,11,28,.82) 75%),
+        url("https://1001indonesia.net/asset/2022/01/Kalosara-696x416.jpg") center/cover no-repeat;
+      border-bottom-left-radius: 36px;
+      border-bottom-right-radius: 36px;
+      overflow:hidden;
+      box-shadow: var(--shadow);
+    }
+    .hero-bg::after{
+      content:"";
+      position:absolute; inset:-2px;
+      background:
+        radial-gradient(900px 500px at 20% 20%, rgba(91,188,255,.20), transparent 60%),
+        radial-gradient(700px 450px at 85% 35%, rgba(124,92,255,.18), transparent 62%);
+      mix-blend-mode: screen;
+      pointer-events:none;
+      animation: drift 8s ease-in-out infinite alternate;
+    }
+
+    .hero-content{
+      position:relative;
+      padding: 0 0 6px;
+    }
+    .kicker{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.14);
+      backdrop-filter: blur(10px);
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .kicker .mini{
+      width:10px; height:10px; border-radius:99px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+    }
+    h1{
+      margin: 14px 0 10px;
+      font-size: clamp(30px, 5vw, 52px);
+      line-height:1.04;
+      letter-spacing: -0.5px;
+    }
+    .lead{
+      max-width: 720px;
+      margin:0 0 18px;
+      color: var(--muted);
+      font-size: clamp(14px, 1.6vw, 18px);
+      line-height:1.6;
+    }
+    .hero-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      align-items:center;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      text-decoration:none;
+      font-size:14px;
+      transition: .22s ease;
+      backdrop-filter: blur(10px);
+    }
+    .btn.primary{
+      border: none;
+      background: linear-gradient(135deg, rgba(91,188,255,.95), rgba(124,92,255,.90));
+      box-shadow: 0 14px 40px rgba(91,188,255,.18);
+      color: #061225;
+      font-weight: 650;
+    }
+    .btn:hover{ transform: translateY(-2px); }
+    .btn:active{ transform: translateY(0px); }
+
+    .hero-stats{
+      margin-top: 18px;
+      display:flex; gap:10px; flex-wrap:wrap;
+    }
+    .stat{
+      padding:10px 12px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .stat b{ color: var(--text); }
+
+    /* section */
+    section{ padding: 34px 0; }
+    .section-head{
+      display:flex;
+      align-items:end;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom: 14px;
+    }
+    .section-head h2{
+      margin:0;
+      font-size: clamp(20px, 2.4vw, 28px);
+      letter-spacing: -0.2px;
+    }
+    .section-head p{
+      margin:0;
+      color: var(--muted);
+      max-width: 520px;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* category chooser */
+    .chooser{
+      margin-top: 18px;
+      display:grid;
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      gap: 12px;
+    }
+    .choice{
+      position:relative;
+      padding: 16px 14px;
+      border-radius: var(--radius2);
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.05));
+      border: 1px solid rgba(255,255,255,.12);
+      overflow:hidden;
+      text-decoration:none;
+      color: var(--text);
+      transition: .25s ease;
+      min-height: 108px;
+    }
+    .choice::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background: radial-gradient(220px 160px at 25% 20%, rgba(91,188,255,.22), transparent 60%),
+                  radial-gradient(220px 160px at 85% 40%, rgba(124,92,255,.18), transparent 62%);
+      opacity:.55;
+      pointer-events:none;
+    }
+    .choice:hover{ transform: translateY(-3px); box-shadow: 0 18px 50px rgba(0,0,0,.35); }
+    .choice small{ color: var(--muted2); display:block; margin-bottom: 6px; position:relative; }
+    .choice b{ font-size: 16px; position:relative; }
+    .choice span{
+      position:absolute;
+      right:14px; bottom:12px;
+      font-size: 18px;
+      opacity:.9;
+    }
+
+    /* cards */
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12, minmax(0,1fr));
+      gap: 12px;
+    }
+    .card{
+      grid-column: span 4;
+      border-radius: var(--radius2);
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.05));
+      border: 1px solid rgba(255,255,255,.12);
+      overflow:hidden;
+      box-shadow: 0 10px 35px rgba(0,0,0,.22);
+      transition: .25s ease;
+      position:relative;
+    }
+    .card:hover{ transform: translateY(-4px); box-shadow: 0 18px 60px rgba(0,0,0,.36); }
+    .thumb{
+      height: 160px;
+      background: rgba(255,255,255,.06);
+      position:relative;
+      overflow:hidden;
+    }
+    .thumb img{
+      width:100%; height:100%; object-fit:cover;
+      transform: scale(1.03);
+      transition: .35s ease;
+      display:block;
+    }
+    .card:hover .thumb img{ transform: scale(1.08); }
+    .thumb::after{
+      content:"";
+      position:absolute; inset:0;
+      background: linear-gradient(180deg, rgba(2,11,28,.10), rgba(2,11,28,.55));
+      pointer-events:none;
+    }
+    .content{
+      padding: 14px 14px 16px;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+    .badge i{
+      width:8px; height:8px; border-radius:99px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display:inline-block;
+    }
+    .title{
+      margin: 0 0 6px;
+      font-size: 16px;
+      letter-spacing: -0.2px;
+    }
+    .desc{
+      margin: 0;
+      color: var(--muted);
+      font-size: 13.5px;
+      line-height: 1.55;
+    }
+    .meta{
+      margin-top: 10px;
+      color: var(--muted2);
+      font-size: 12px;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+    }
+
+    /* about */
+    .about{
+      border-radius: 30px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      padding: 18px;
+      overflow:hidden;
+      position:relative;
+    }
+    .about::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background: radial-gradient(420px 280px at 20% 20%, rgba(91,188,255,.18), transparent 60%),
+                  radial-gradient(380px 260px at 85% 35%, rgba(124,92,255,.16), transparent 62%);
+      opacity:.7;
+      pointer-events:none;
+    }
+    .about-inner{
+      position:relative;
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 14px;
+      align-items:start;
+    }
+    .about h3{ margin:0 0 8px; font-size: 20px; letter-spacing:-.2px; }
+    .about p{ margin:0; color: var(--muted); line-height:1.65; font-size:14px; }
+    .about .box{
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(2,11,28,.25);
+      padding: 14px;
+    }
+    .about ul{ margin: 8px 0 0; padding-left: 18px; color: var(--muted); }
+    .about li{ margin: 6px 0; }
+
+    /* footer */
+    footer{
+      padding: 28px 0 44px;
+      color: var(--muted2);
+      font-size: 12px;
+      text-align:center;
+    }
+    .note{
+      margin-top:10px;
+      color: rgba(255,255,255,.45);
+      font-size: 11.5px;
+    }
+
+    /* reveal animation */
+    .reveal{
+      opacity:0;
+      transform: translateY(16px);
+      transition: .7s ease;
+      will-change: transform, opacity;
+    }
+    .reveal.visible{
+      opacity:1;
+      transform: translateY(0);
+    }
+
+    /* back to top */
+    .topbtn{
+      position:fixed;
+      right: 16px;
+      bottom: 16px;
+      padding: 12px 12px;
+      border-radius: 999px;
+      background: rgba(10,25,55,.55);
+      border: 1px solid rgba(255,255,255,.14);
+      backdrop-filter: blur(10px);
+      color: var(--text);
+      text-decoration:none;
+      font-size: 14px;
+      box-shadow: 0 14px 40px rgba(0,0,0,.35);
+      opacity:0;
+      transform: translateY(10px);
+      pointer-events:none;
+      transition: .25s ease;
+      z-index:999;
+    }
+    .topbtn.show{
+      opacity:1;
+      transform: translateY(0);
+      pointer-events:auto;
+    }
+
+    /* responsive */
+    @media (max-width: 980px){
+      .chooser{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .card{ grid-column: span 6; }
+      .about-inner{ grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px){
+      .card{ grid-column: span 12; }
+      .nav-inner{ gap:8px; }
+      .pill{ display:none; }
+      .brand b{ display:none; }
+      .hero{ min-height: 90vh; }
+      .thumb{ height: 150px; }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      *{ animation:none !important; transition:none !important; scroll-behavior:auto !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="glow" aria-hidden="true"></div>
+  <div class="progress" id="progress"></div>
+
+  <!-- Sticky Nav -->
+  <div class="nav" id="nav">
+    <div class="nav-inner">
+      <div class="brand">
+        <span class="dot"></span>
+        <b>Explore Kendari</b>
+      </div>
+
+      <a href="#wisata">Wisata</a>
+      <a href="#hotel">Hotel</a>
+      <a href="#kuliner">Rumah Makan</a>
+      <a href="#budaya">Budaya</a>
+      <a href="#about">About Us</a>
+
+      <div class="spacer"></div>
+      
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <header class="hero" id="top">
+    <div class="hero-bg" role="img" aria-label="Foto Kalosara"></div>
+
+    <div class="wrap hero-content">
+      <div class="kicker reveal"><span class="mini"></span>Kota Kendari, Sulawesi Tenggara</div>
+
+      <h1 class="reveal" style="transition-delay:.06s;">Wisata<br/>Kota Kendari</h1>
+
+      <p class="lead reveal" style="transition-delay:.12s;">
+        <b>Kalosara</b> sebagai identitas budaya, <b>Anoa</b> sebagai fauna endemik,
+        hingga rekomendasi <b>wisata</b>, <b>hotel</b>, <b>kuliner</b>, dan <b>tarian</b>.
+      </p>
+
+      <div class="hero-actions reveal" style="transition-delay:.18s;">
+        <a class="btn primary" href="#pilihan">Mulai Jelajah</a>
+        <a class="btn" href="#ikon">Kalosara & Anoa</a>
+        <a class="btn" href="#about">About Us</a>
+      </div>
+
+      <!-- chooser -->
+      <div id="pilihan" class="chooser reveal" style="transition-delay:.30s; margin-top:20px;">
+        <a class="choice" href="#wisata">
+          <small>Destinasi</small><b>Wisata</b><span>🏝️</span>
+        </a>
+        <a class="choice" href="#hotel">
+          <small>Akomodasi</small><b>Hotel</b><span>🏨</span>
+        </a>
+        <a class="choice" href="#kuliner">
+          <small>Kuliner</small><b>Rumah Makan</b><span>🍽️</span>
+        </a>
+        <a class="choice" href="#budaya">
+          <small>Tradisi</small><b>Budaya</b><span>💃</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- ICONS -->
+    <section id="ikon">
+      <div class="section-head reveal">
+        <div>
+          <h2>Ikon & Identitas</h2>
+          <p>Ringkasan singkat untuk Kalosara dan Anoa sebagai bagian dari cerita Kendari.</p>
+        </div>
+      </div>
+
+      <div class="grid" id="ikonGrid"></div>
+    </section>
+
+    <!-- WISATA -->
+    <section id="wisata">
+      <div class="section-head reveal">
+        <div>
+          <h2>Wisata</h2>
+          <p>Pilihan destinasi yang mudah dikenali: religi, alam, teluk, kebun raya, air terjun, hingga museum.</p>
+        </div>
+      </div>
+
+      <div class="grid" id="wisataGrid"></div>
+    </section>
+
+    <!-- HOTEL -->
+    <section id="hotel">
+      <div class="section-head reveal">
+        <div>
+          <h2>Hotel</h2>
+          <p>Daftar hotel rekomendasi di Kota Kendari</p>
+        </div>
+      </div>
+
+      <div class="grid" id="hotelGrid"></div>
+    </section>
+
+    <!-- KULINER -->
+    <section id="kuliner">
+      <div class="section-head reveal">
+        <div>
+          <h2>Rumah Makan</h2>
+          <p>Rekomendasi kuliner di Kota Kendari.</p>
+        </div>
+      </div>
+
+      <div class="grid" id="kulinerGrid"></div>
+    </section>
+
+    <!-- BUDAYA -->
+    <section id="budaya">
+      <div class="section-head reveal">
+        <div>
+          <h2>Budaya & Tarian</h2>
+          <p>Tarian tradisional di Kota Kendari</p>
+        </div>
+      </div>
+
+      <div class="grid" id="budayaGrid"></div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="section-head reveal">
+        <div>
+          <h2>About Us</h2>
+        </div>
+      </div>
+
+      <div class="about reveal">
+        <div class="about-inner">
+          <div class="box">
+            <p>
+              Platform ini merupakan bagian dari kolaborasi antara pemerintah Kota Kendari dengan Duta Wisata Anandonia Luale Kota Kendari 2025.
+              <br/><br/>
+            </p>
+          </div>
+
+          <div class="box">
+            <h3>Sosial Media</h3>
+            <ul>
+              <li>@kendarikotagoid</li>
+              <li>@disparekrafkotakendari</li>
+              <li>@anandonialualekendari</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      © <span id="year"></span> Explore Kendari
+      <div class="note">
+        Sumber gambar: Wikimedia/Antara/Republika/Blogspot & foto ilustrasi (Unsplash Source). Silakan ganti sesuai kebutuhanmu.
+      </div>
+    </footer>
+  </main>
+
+  <a class="topbtn" id="topbtn" href="#top">⬆️</a>
+
+  <script>
+    // ----------------------------
+    // DATA (edit bebas)
+    // ----------------------------
+    const data = {
+      ikon: [
+        {
+          badge: "Budaya • Tolaki",
+          title: "Kalosara",
+          desc: "Simbol adat yang sering dimaknai sebagai pemersatu dan perekat harmoni dalam masyarakat. Cocok dijadikan pembuka cerita Kendari.",
+          metaL: "Identitas budaya",
+          metaR: "Foto: Kalosara",
+          img: "https://1001indonesia.net/asset/2022/01/Kalosara-696x416.jpg"
+        },
+        {
+          badge: "Fauna • Endemik",
+          title: "Anoa",
+          desc: "Satwa endemik Sulawesi yang ikonik. Bisa jadi highlight edukasi lingkungan dan konservasi pada platform wisata.",
+          metaL: "Ikon alam",
+          metaR: "Foto: Anoa",
+          img: "https://upload.wikimedia.org/wikipedia/commons/6/64/Lowland_anoa.jpg"
+        }
+      ],
+
+      wisata: [
+        {
+          badge: "Religi",
+          title: "Al-Alam",
+          desc: "Landmark religi yang terkenal dengan panorama air dan suasana yang fotogenik, cocok untuk kunjungan sore atau malam.",
+          metaL: "Spot foto",
+          metaR: "Masjid Al-Alam",
+          img: "https://upload.wikimedia.org/wikipedia/commons/c/cd/Masjid_Al_Alam_Kendari_%282%29.jpg"
+        },
+        {
+          badge: "Bahari",
+          title: "Teluk Kendari",
+          desc: "Area teluk yang sering jadi pilihan menikmati pemandangan, sunset, dan suasana tepi air.",
+          metaL: "Pemandangan",
+          metaR: "Teluk Kendari",
+          img: "https://commons.wikimedia.org/wiki/Special:FilePath/Teluk_Kendari.jpg"
+        },
+        {
+          badge: "Landmark",
+          title: "MTQ (Tugu Religi)",
+          desc: "Monumen ikonik yang mudah dikenali dan sering jadi titik orientasi kota (terutama saat malam).",
+          metaL: "Ikon kota",
+          metaR: "MTQ Kendari",
+          img: "https://commons.wikimedia.org/wiki/Special:FilePath/Tugu%20Persatuan%20MTQ.jpg"
+        },
+        {
+          badge: "Pantai",
+          title: "Nambo",
+          desc: "Pantai yang cocok untuk santai, menikmati angin laut, dan quality time bersama keluarga.",
+          metaL: "Liburan",
+          metaR: "Pantai Nambo",
+          img: "https://static.republika.co.id/uploads/images/inpicture_slide/pantai-nambo-di-kendari-sulawesi-tenggara-_170809073904-675.jpg"
+        },
+        {
+          badge: "Alam • Edukasi",
+          title: "Kebun Raya",
+          desc: "Ruang hijau untuk jalan santai, belajar tentang tanaman, dan menikmati suasana sejuk.",
+          metaL: "Konservasi",
+          metaR: "Kebun Raya Kendari",
+          img: "https://img.antarafoto.com/cache/1200x800/2025/02/23/wisata-edukasi-kebun-raya-kendari-1gmop-dom.jpg"
+        },
+        {
+          badge: "Air Terjun",
+          title: "Air Terjun Nanga Nanga",
+          desc: "Nuansa hutan dan suara air menjadi daya tarik utama. Cocok untuk short escape dari suasana kota.",
+          metaL: "Healing alam",
+          metaR: "Nanga-Nanga",
+          img: "https://commons.wikimedia.org/wiki/Special:FilePath/Air_Terjun_Nanga-Nanga.jpg"
+        },
+        {
+          badge: "Bukit • View",
+          title: "Amarilis",
+          desc: "Spot ketinggian untuk melihat suasana kota dan jalur trekking ringan—sering jadi favorit untuk camping & foto.",
+          metaL: "Trekking",
+          metaR: "Puncak Amarilis",
+          img: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjhm-ahX0IX9E6hY6vueyKigXP8jPe3kMzLtNZynJUxd3mF6ZoTeM39a8_ZWAVhYMouI1YPY13i7plL2T65QBiYf9AthUGZhBVxMv1TvseDjzOciFYRGMOem_6fIrY1Ow05-8daqRMrdPU/s1600/foto1298.jpg",
+          fallback: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhYdculO7tWBZPR8jko5vKlBIiU3zxFhdgsdNrNDVM7cHOPR_RAFuCt2kcQnuiPT74rf-l_28HVtqVcWhSo7mNZpWwOVDopbVJb8OA_KqnfIrswNiIFFcy743GcDwhwIOsa2Dzsj45QNRs/s1600/foto1349.jpg"
+        },
+        {
+          badge: "Sejarah",
+          title: "Museum",
+          desc: "Tempat melihat koleksi sejarah, budaya, dan edukasi daerah—cocok untuk kunjungan sekolah atau wisata keluarga.",
+          metaL: "Edukasi",
+          metaR: "Museum Sultra",
+          img: "https://img.antarafoto.com/cache/1200x800/2025/02/14/jumlah-koleksi-museum-sulawesi-tenggara-1gh1d-dom.jpg"
+        }
+      ],
+
+      hotel: [
+        { badge:"Hotel", title:"Claro", desc:"Pilihan hotel modern untuk menginap, staycation, atau kebutuhan perjalanan kerja/acara.", metaL:"Akomodasi", metaR:"Ilustrasi", img:"https://source.unsplash.com/1200x800/?hotel,indonesia&sig=1" },
+        { badge:"Hotel", title:"Plaza Inn", desc:"Opsi menginap yang nyaman dengan fokus pada kemudahan akses dan layanan dasar yang rapi.", metaL:"Akomodasi", metaR:"Ilustrasi", img:"https://source.unsplash.com/1200x800/?hotel,city&sig=2" },
+        { badge:"Hotel", title:"Horizons", desc:"Cocok untuk pelancong yang ingin suasana hotel modern dan fasilitas standar yang lengkap.", metaL:"Akomodasi", metaR:"Ilustrasi", img:"https://source.unsplash.com/1200x800/?hotel,lobby&sig=3" },
+        { badge:"Hotel", title:"Swiss-Bel", desc:"Nama hotel yang sering dicari untuk kebutuhan bisnis/meeting dan pengalaman menginap yang rapi.", metaL:"Akomodasi", metaR:"Ilustrasi", img:"https://source.unsplash.com/1200x800/?hotel,building&sig=4" },
+        { badge:"Hotel", title:"Same Hotel", desc:"Alternatif menginap yang simpel—cocok untuk istirahat singkat atau perjalanan singkat.", metaL:"Akomodasi", metaR:"Ilustrasi", img:"https://source.unsplash.com/1200x800/?hotel,room&sig=5" },
+        { badge:"Hotel", title:"Zahra", desc:"Pilihan hotel untuk kamu yang mengutamakan kenyamanan kamar dan suasana yang tenang.", metaL:"Akomodasi", metaR:"Ilustrasi", img:"https://source.unsplash.com/1200x800/?hotel,night&sig=6" },
+        { badge:"Hotel", title:"Zenith", desc:"Rekomendasi untuk menginap dengan vibe modern dan cocok untuk perjalanan kerja atau wisata.", metaL:"Akomodasi", metaR:"Ilustrasi", img:"https://source.unsplash.com/1200x800/?hotel,modern&sig=7" },
+        { badge:"Hotel", title:"Athaya", desc:"Opsi menginap yang praktis—mudah dijadikan base untuk jelajah kota.", metaL:"Akomodasi", metaR:"Ilustrasi", img:"https://source.unsplash.com/1200x800/?hotel,interior&sig=8" },
+        { badge:"Hotel", title:"Azizah Hotel", desc:"Pilihan menginap dengan konsep layanan yang rapi untuk kebutuhan perjalanan.", metaL:"Akomodasi", metaR:"Ilustrasi", img:"https://source.unsplash.com/1200x800/?hotel,stay&sig=9" },
+        { badge:"Hotel", title:"Tropikal Point", desc:"Nama hotel yang cocok dipakai sebagai rekomendasi untuk istirahat setelah aktivitas wisata.", metaL:"Akomodasi", metaR:"Ilustrasi", img:"https://source.unsplash.com/1200x800/?hotel,tropical&sig=10" }
+      ],
+
+      kuliner: [
+        {
+          badge: "Kuliner",
+          title: "Kampung Bakau",
+          desc: "Tempat makan dengan nuansa alam/mangrove yang cocok untuk kumpul keluarga atau nongkrong santai.",
+          metaL: "Kuliner lokal",
+          metaR: "Ilustrasi",
+          img: "https://source.unsplash.com/1200x800/?mangrove,restaurant&sig=11"
+        }
+      ],
+
+      budaya: [
+        {
+          badge: "Tarian",
+          title: "Lulo",
+          desc: "Tarian kebersamaan—ikon budaya yang sering ditampilkan pada acara adat dan momen perayaan.",
+          metaL: "Tradisi",
+          metaR: "Foto: Lulo",
+          img: "https://upload.wikimedia.org/wikipedia/commons/3/3f/Molulo.jpg"
+        },
+        {
+          badge: "Tarian",
+          title: "Lariangi",
+          desc: "Tarian tradisional dengan busana khas yang kuat unsur estetika—cocok sebagai highlight budaya.",
+          metaL: "Seni pertunjukan",
+          metaR: "Foto: Lariangi",
+          img: "https://commons.wikimedia.org/wiki/Special:FilePath/Persembahan_Tarian_Lariangi.jpg"
+        },
+        {
+          badge: "Tarian",
+          title: "Mondotambe",
+          desc: "Tarian tradisional yang bisa kamu jadikan bagian budaya lokal. (Foto masih ilustrasi — bisa diganti foto asli.)",
+          metaL: "Budaya",
+          metaR: "Ilustrasi",
+          img: "https://source.unsplash.com/1200x800/?traditional,dance,indonesia&sig=12"
+        }
+      ]
+    };
+
+    // ----------------------------
+    // RENDER
+    // ----------------------------
+    const renderCards = (mountId, items) => {
+      const el = document.getElementById(mountId);
+      el.innerHTML = items.map((x) => `
+        <article class="card reveal">
+          <div class="thumb">
+            <img loading="lazy" src="${x.img}" alt="${escapeHtml(x.title)}"
+                 onerror="this.onerror=null; this.src='${x.fallback || 'https://source.unsplash.com/1200x800/?blue,abstract&sig=99'}';" />
+          </div>
+          <div class="content">
+            <div class="badge"><i></i>${escapeHtml(x.badge)}</div>
+            <h3 class="title">${escapeHtml(x.title)}</h3>
+            <p class="desc">${escapeHtml(x.desc)}</p>
+            <div class="meta">
+              <span>${escapeHtml(x.metaL || '')}</span>
+              <span>${escapeHtml(x.metaR || '')}</span>
+            </div>
+          </div>
+        </article>
+      `).join("");
+    };
+
+    const escapeHtml = (s) => (s ?? "")
+      .replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;").replaceAll("'","&#039;");
+
+    renderCards("ikonGrid", data.ikon);
+    renderCards("wisataGrid", data.wisata);
+    renderCards("hotelGrid", data.hotel);
+    renderCards("kulinerGrid", data.kuliner);
+    renderCards("budayaGrid", data.budaya);
+
+    // ----------------------------
+    // NAV SHOW + TOP BUTTON + PROGRESS
+    // ----------------------------
+    const nav = document.getElementById("nav");
+    const topbtn = document.getElementById("topbtn");
+    const progress = document.getElementById("progress");
+
+    const onScroll = () => {
+      const y = window.scrollY || document.documentElement.scrollTop;
+      nav.classList.toggle("show", y > 120);
+      topbtn.classList.toggle("show", y > 700);
+
+      const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const p = h > 0 ? (y / h) * 100 : 0;
+      progress.style.width = p.toFixed(2) + "%";
+    };
+    window.addEventListener("scroll", onScroll, { passive:true });
+    onScroll();
+
+    // ----------------------------
+    // REVEAL ON SCROLL
+    // ----------------------------
+    const revealEls = [...document.querySelectorAll(".reveal")];
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) e.target.classList.add("visible");
+      });
+    }, { threshold: 0.14 });
+
+    revealEls.forEach((el) => io.observe(el));
+
+    // year
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
