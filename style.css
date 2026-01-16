@@ -512,3 +512,61 @@ footer{
   .nav-inner{ gap:4px; padding: 9px 8px; }
   .nav a{ padding: 9px 6px; }
 }
+
+/* =========================
+   FIX MOBILE (HP) — paste paling bawah style.css
+   ========================= */
+@media (max-width: 520px){
+
+  /* 1) Tombol di HERO: jadi 1 kolom (biar tidak kepotong) */
+  .hero-actions{
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    width: 100% !important;
+  }
+  .hero-actions .btn{
+    width: 100% !important;
+    justify-content: center !important;
+    font-size: 13.5px !important;
+    padding: 12px 12px !important;
+  }
+
+  /* 2) Stepper 01–04: jadi 2 baris (2x2), separator disembunyikan */
+  .stepper{
+    flex-wrap: wrap !important;
+    border-radius: 22px !important;
+    padding: 10px !important;
+    gap: 8px !important;
+    overflow: visible !important;  /* biar tidak “ngumpet” */
+  }
+  .stepper .sep{
+    display: none !important;
+  }
+  .stepper .step{
+    flex: 1 1 calc(50% - 6px) !important; /* 2 kolom */
+    justify-content: center !important;
+    padding: 10px 10px !important;
+  }
+  .stepper .step .label{
+    font-size: 12px !important;
+  }
+  .stepper .step .num{
+    padding: 5px 9px !important;
+    font-size: 12px !important;
+    
+  }
+  .lead{
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+  }
+  h1{
+    font-size: clamp(30px, 9vw, 44px) !important;
+  }
+  
+}
+@media (max-width: 360px){
+  .kicker{ font-size: 12px !important; }
+  .hero-actions .btn{ font-size: 13px !important; }
+  .stepper .step .label{ font-size: 11.5px !important; }
+}
