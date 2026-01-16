@@ -11,14 +11,6 @@ function injectNav() {
         <span class="dot"></span>
         <b>Explore Kendari</b>
       </div>
-
-      <a href="#wisata"><span class="nav-ico">🏝️</span><span class="nav-txt">Wisata</span></a>
-      <a href="#hotel"><span class="nav-ico">🏨</span><span class="nav-txt">Hotel</span></a>
-      <a href="#kuliner"><span class="nav-ico">🍽️</span><span class="nav-txt">Rumah Makan</span></a>
-      <a href="#budaya"><span class="nav-ico">💃</span><span class="nav-txt">Budaya</span></a>
-      <a href="#about"><span class="nav-ico">ℹ️</span><span class="nav-txt">About</span></a>
-
-      <div class="spacer"></div>
     </div>
   `;
 }
@@ -132,3 +124,4 @@ document.addEventListener("DOMContentLoaded", () => {
   setupStepper();
   setYear();
 });
+
