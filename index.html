@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wisata Kota Kendari | Explore Kendari</title>
+  <meta name="description" content="Platform singkat wisata, hotel, kuliner, dan budaya di Kota Kendari." />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="glow" aria-hidden="true"></div>
+  <div class="progress" id="progress"></div>
+
+  <!-- ✅ NAV akan di-inject dari app.js (biar index ringkas) -->
+  <div class="nav" id="nav"></div>
+
+  <!-- HERO -->
+  <header class="hero" id="top">
+    <div class="hero-bg" role="img" aria-label="Foto Kalosara"></div>
+
+    <div class="wrap hero-content">
+      <div class="kicker reveal"><span class="mini"></span> Kota Kendari, Sulawesi Tenggara</div>
+
+      <h1 class="reveal" style="transition-delay:.06s;">Wisata<br/>Kota Kendari</h1>
+
+      <p class="lead reveal" style="transition-delay:.12s;">
+        <b>Kalosara</b> sebagai identitas budaya, <b>Anoa</b> sebagai fauna endemik,
+        hingga rekomendasi <b>wisata</b>, <b>hotel</b>, <b>kuliner</b>, dan <b>tarian</b>.
+      </p>
+
+      <div class="hero-actions reveal" style="transition-delay:.18s;">
+        <a class="btn primary" href="#pilihan">Mulai Jelajah</a>
+        <a class="btn" href="#ikon">Kalosara & Anoa</a>
+        <a class="btn" href="#about">About Us</a>
+      </div>
+
+      <!-- Stepper 01-04 -->
+      <div class="stepper reveal" id="stepper" style="transition-delay:.36s;">
+        <a class="step active" href="#wisata" data-target="wisata">
+          <span class="num">01</span><span class="label">Wisata</span>
+        </a>
+        <span class="sep" aria-hidden="true"></span>
+        <a class="step" href="#hotel" data-target="hotel">
+          <span class="num">02</span><span class="label">Hotel</span>
+        </a>
+        <span class="sep" aria-hidden="true"></span>
+        <a class="step" href="#kuliner" data-target="kuliner">
+          <span class="num">03</span><span class="label">Rumah Makan</span>
+        </a>
+        <span class="sep" aria-hidden="true"></span>
+        <a class="step" href="#budaya" data-target="budaya">
+          <span class="num">04</span><span class="label">Budaya</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap" id="pilihan">
+    <!-- IKON -->
+    <section id="ikon">
+      <div class="section-head reveal">
+        <div>
+          <h2>Ikon & Identitas</h2>
+          <p>Ringkasan singkat untuk Kalosara dan Anoa sebagai bagian dari cerita Kendari.</p>
+        </div>
+      </div>
+      <div class="grid" id="ikonGrid"></div>
+    </section>
+
+    <div class="section-divider reveal" aria-hidden="true">
+      <span class="line"></span><span class="tag">01 • WISATA</span><span class="line"></span>
+    </div>
+
+    <section id="wisata">
+      <div class="section-head reveal">
+        <div>
+          <h2>Wisata</h2>
+          <p>Pilihan destinasi: religi, alam, teluk, kebun raya, air terjun, hingga museum.</p>
+        </div>
+      </div>
+      <div class="grid" id="wisataGrid"></div>
+    </section>
+
+    <div class="section-divider reveal" aria-hidden="true">
+      <span class="line"></span><span class="tag">02 • HOTEL</span><span class="line"></span>
+    </div>
+
+    <section id="hotel">
+      <div class="section-head reveal">
+        <div>
+          <h2>Hotel</h2>
+          <p>Daftar hotel rekomendasi di Kota Kendari.</p>
+        </div>
+      </div>
+      <div class="grid" id="hotelGrid"></div>
+    </section>
+
+    <div class="section-divider reveal" aria-hidden="true">
+      <span class="line"></span><span class="tag">03 • RUMAH MAKAN</span><span class="line"></span>
+    </div>
+
+    <section id="kuliner">
+      <div class="section-head reveal">
+        <div>
+          <h2>Rumah Makan</h2>
+          <p>Rekomendasi kuliner di Kota Kendari.</p>
+        </div>
+      </div>
+      <div class="grid" id="kulinerGrid"></div>
+    </section>
+
+    <div class="section-divider reveal" aria-hidden="true">
+      <span class="line"></span><span class="tag">04 • BUDAYA</span><span class="line"></span>
+    </div>
+
+    <section id="budaya">
+      <div class="section-head reveal">
+        <div>
+          <h2>Budaya & Tarian</h2>
+          <p>Tarian Tradisional dari Kota Kendari</p>
+        </div>
+      </div>
+      <div class="grid" id="budayaGrid"></div>
+    </section>
+
+    <section id="about">
+      <div class="section-head reveal">
+        <div><h2>About Us</h2></div>
+      </div>
+
+      <div class="about reveal">
+        <div class="about-inner">
+          <div class="box">
+            <h3>Tentang Platform</h3>
+            <p>Wisata Kendari Digital merupakan kolaborasi antara pemerintah Kota Kendari dengan Duta Wisata Anandonia Luale Kota Kendari 2025.</p>
+          </div>
+
+          <div class="box">
+            <h3>Sosial Media</h3>
+            <ul>
+              <li>@kendarikotagoid</li>
+              <li>@anandonialualekendari</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      © <span id="year"></span> Explore Kendari
+    </footer>
+  </main>
+
+  <a class="topbtn" id="topbtn" href="#top" aria-label="Kembali ke atas">⬆️</a>
+
+  <!-- ✅ Pisah: data & logic -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
